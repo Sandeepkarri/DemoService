@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ProductModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="category_id" />
+          </Key>
+          <Property Name="category_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="category_name" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Files">
+          <Key>
+            <PropertyRef Name="Files_id" />
+          </Key>
+          <Property Name="Files_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Files_name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Files_array" Type="image" />
+        </EntityType>
+        <EntityType Name="Freshness">
+          <Key>
+            <PropertyRef Name="Freshness_id" />
+          </Key>
+          <Property Name="Freshness_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Freshness_name" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="products">
+          <Key>
+            <PropertyRef Name="product_id" />
+          </Key>
+          <Property Name="product_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product_name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Freshness_id" Type="int" Nullable="false" />
+          <Property Name="category_id" Type="int" Nullable="false" />
+          <Property Name="Files_id" Type="int" Nullable="false" />
+          <Property Name="Additional_Des" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Comments" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__products__catego__3C69FB99">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="category_id" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__products__Files___3E52440B">
+          <End Role="Files" Type="Self.Files" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Files">
+              <PropertyRef Name="Files_id" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="Files_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__products__Freshn__3D5E1FD2">
+          <End Role="Freshness" Type="Self.Freshness" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Freshness">
+              <PropertyRef Name="Freshness_id" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="Freshness_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProductModelStoreContainer">
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Freshness" EntityType="Self.Freshness" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="products" EntityType="Self.products" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__products__catego__3C69FB99" Association="Self.FK__products__catego__3C69FB99">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__products__Files___3E52440B" Association="Self.FK__products__Files___3E52440B">
+            <End Role="Files" EntitySet="Files" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__products__Freshn__3D5E1FD2" Association="Self.FK__products__Freshn__3D5E1FD2">
+            <End Role="Freshness" EntitySet="Freshness" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProductModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="category_id" />
+          </Key>
+          <Property Name="category_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="products" Relationship="Self.FK__products__catego__3C69FB99" FromRole="Categories" ToRole="products" />
+        </EntityType>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="Files_id" />
+          </Key>
+          <Property Name="Files_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Files_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Files_array" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="products" Relationship="Self.FK__products__Files___3E52440B" FromRole="Files" ToRole="products" />
+        </EntityType>
+        <EntityType Name="Freshness">
+          <Key>
+            <PropertyRef Name="Freshness_id" />
+          </Key>
+          <Property Name="Freshness_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Freshness_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="products" Relationship="Self.FK__products__Freshn__3D5E1FD2" FromRole="Freshness" ToRole="products" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="product_id" />
+          </Key>
+          <Property Name="product_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="product_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Freshness_id" Type="Int32" Nullable="false" />
+          <Property Name="category_id" Type="Int32" Nullable="false" />
+          <Property Name="Files_id" Type="Int32" Nullable="false" />
+          <Property Name="Additional_Des" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Comments" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK__products__catego__3C69FB99" FromRole="products" ToRole="Categories" />
+          <NavigationProperty Name="File" Relationship="Self.FK__products__Files___3E52440B" FromRole="products" ToRole="Files" />
+          <NavigationProperty Name="Freshness" Relationship="Self.FK__products__Freshn__3D5E1FD2" FromRole="products" ToRole="Freshness" />
+        </EntityType>
+        <Association Name="FK__products__catego__3C69FB99">
+          <End Role="Categories" Type="Self.Category" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="products" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="category_id" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__products__Files___3E52440B">
+          <End Role="Files" Type="Self.File" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="products" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Files">
+              <PropertyRef Name="Files_id" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="Files_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__products__Freshn__3D5E1FD2">
+          <End Role="Freshness" Type="Self.Freshness" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="products" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Freshness">
+              <PropertyRef Name="Freshness_id" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="Freshness_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProductContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Files" EntityType="Self.File" />
+          <EntitySet Name="Freshnesses" EntityType="Self.Freshness" />
+          <EntitySet Name="products" EntityType="Self.product" />
+          <AssociationSet Name="FK__products__catego__3C69FB99" Association="Self.FK__products__catego__3C69FB99">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__products__Files___3E52440B" Association="Self.FK__products__Files___3E52440B">
+            <End Role="Files" EntitySet="Files" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__products__Freshn__3D5E1FD2" Association="Self.FK__products__Freshn__3D5E1FD2">
+            <End Role="Freshness" EntitySet="Freshnesses" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProductModelStoreContainer" CdmEntityContainer="ProductContext">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="ProductModel.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="category_name" ColumnName="category_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Files">
+            <EntityTypeMapping TypeName="ProductModel.File">
+              <MappingFragment StoreEntitySet="Files">
+                <ScalarProperty Name="Files_id" ColumnName="Files_id" />
+                <ScalarProperty Name="Files_name" ColumnName="Files_name" />
+                <ScalarProperty Name="Files_array" ColumnName="Files_array" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Freshnesses">
+            <EntityTypeMapping TypeName="ProductModel.Freshness">
+              <MappingFragment StoreEntitySet="Freshness">
+                <ScalarProperty Name="Freshness_id" ColumnName="Freshness_id" />
+                <ScalarProperty Name="Freshness_name" ColumnName="Freshness_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="ProductModel.product">
+              <MappingFragment StoreEntitySet="products">
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="product_name" ColumnName="product_name" />
+                <ScalarProperty Name="Freshness_id" ColumnName="Freshness_id" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="Files_id" ColumnName="Files_id" />
+                <ScalarProperty Name="Additional_Des" ColumnName="Additional_Des" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
